@@ -28,5 +28,11 @@
     "companyId": "SJV0-wdOM",
     "title": "DevOps Engineer",
     "description": "We need somebody to restart the servers when they fail over."
+  },
+  {
+    "id": "r1WP8-S9U",
+    "companyId": "SJV0-wdOM",
+    "title": "Tester",
+    "description": "You must be goot at finding bugs."
   }
 ]
