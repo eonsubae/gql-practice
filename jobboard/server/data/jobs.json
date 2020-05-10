@@ -46,5 +46,17 @@
     "title": "Test with apollo client",
     "description": "test with apollo boost",
     "companyId": "SJV0-wdOM"
+  },
+  {
+    "id": "B1HkBzSq8",
+    "title": "New Job1",
+    "description": "test job",
+    "companyId": "SJV0-wdOM"
+  },
+  {
+    "id": "SyOlrfBqU",
+    "title": "New Job2",
+    "description": "test job2",
+    "companyId": "SJV0-wdOM"
   }
 ]
