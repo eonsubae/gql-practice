@@ -30,29 +30,24 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
+const jobQuery = gql`
+  query JobQuery($id: ID!) {
+    job(id: $id) {
+      id
+      title
+      company {
+        id
+        name
+      }
+      description
+    }
+  }
+`;
+
 export async function createJob(input) {
   const mutation = gql`
     mutation CreateJob($input: CreateJobInput) {
       job: createJob(input: $input) {
-        id
-        title
-        company {
-          id
-          name
-        }
-      }
-    }
-  `;
-  const {
-    data: { job },
-  } = await client.mutate({ mutation, variables: { input } });
-  return job;
-}
-
-export async function loadJob(id) {
-  const query = gql`
-    query JobQuery($id: ID!) {
-      job(id: $id) {
         id
         title
         company {
@@ -65,7 +60,28 @@ export async function loadJob(id) {
   `;
   const {
     data: { job },
-  } = await client.query({ query, variables: { id } });
+  } = await client.mutate({
+    mutation,
+    variables: { input },
+    update: (cache, { data } /*mutationResult*/) => {
+      // cache는 Docs를 보다 보면 store, proxy등으로 불리는 때도 있다
+      // 캐시에 무엇이 저장되어 있는지 조작 가능하도록 해주는 파라미터다
+      // mutationResult는 뮤테이션을 보낸 반환된 결과물을 조작 가능하도록 해주는 파라미터다
+
+      cache.writeQuery({
+        query: jobQuery,
+        variables: { id: data.job.id },
+        data,
+      });
+    },
+  });
+  return job;
+}
+
+export async function loadJob(id) {
+  const {
+    data: { job },
+  } = await client.query({ query: jobQuery, variables: { id } });
   return job;
 }
 
