@@ -17,7 +17,7 @@ class Chat extends Component {
 
   componentWillUnmount() {
     if (this.subscription) {
-      this.subscription.unSubscribe();
+      this.subscription.unsubscribe();
     }
   }
 
