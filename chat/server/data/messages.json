@@ -1,5 +1,17 @@
-[{
-  "id": "SJKhIAKYB",
-  "from": "system",
-  "text": "Welcome!"
-}]
+[
+  {
+    "id": "SJKhIAKYB",
+    "from": "system",
+    "text": "Welcome!"
+  },
+  {
+    "id": "ryweQMtq8",
+    "from": "alice",
+    "text": "one"
+  },
+  {
+    "id": "ryte7MKqI",
+    "from": "alice",
+    "text": "two"
+  }
+]
