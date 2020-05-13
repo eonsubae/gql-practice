@@ -1,6 +1,6 @@
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import React from 'react';
-import { messagesQuery } from './graphql/queries';
+import { messagesQuery, addMessageMutation } from './graphql/queries';
 import MessageInput from './MessageInput';
 import MessageList from './MessageList';
 
@@ -10,10 +10,15 @@ const Chat = ({ user }) => {
   ); // 이 코드가 아래 두 줄과 같은 역할
   // const [result, setResult] = useState({ loading: true });
   // client.query({ query : messagesQuery }).then(({ data }) => setResult({ loading : false, data }));
+  const [addMessage /* { loading, error, data, called} */] = useMutation(
+    addMessageMutation
+  );
   const messages = data ? data.messages : [];
 
   const handleSend = async (text) => {
     // TODO
+    const { data } = await addMessage({ variables: { input: { text } } });
+    console.log(data);
   };
 
   // if (loading) return <Spinner />;
