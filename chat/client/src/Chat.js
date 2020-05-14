@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useSubscription } from '@apollo/react-hooks';
-import React, { useState } from 'react';
+import React from 'react';
 import {
   messagesQuery,
   addMessageMutation,
@@ -9,10 +9,8 @@ import MessageInput from './MessageInput';
 import MessageList from './MessageList';
 
 const Chat = ({ user }) => {
-  const [messages, setMessages] = useState([]);
-  useQuery(messagesQuery, {
-    onCompleted: ({ messages }) => setMessages(messages),
-  });
+  const { data } = useQuery(messagesQuery);
+  const messages = data ? data.messages : [];
   // const { /* loading, error, */ data } = useQuery(messagesQuery /* { options... like in client.query } */); // 이 코드가 아래 두 줄과 같은 역할
   // const [result, setResult] = useState({ loading: true });
   // client.query({ query : messagesQuery }).then(({ data }) => setResult({ loading : false, data }));
@@ -20,8 +18,13 @@ const Chat = ({ user }) => {
     addMessageMutation
   );
   useSubscription(messageAddedSubscription, {
-    onSubscriptionData: ({ subscriptionData }) => {
-      setMessages(messages.concat(subscriptionData.data.messageAdded));
+    onSubscriptionData: ({ client, subscriptionData }) => {
+      // setMessages(messages.concat(subscriptionData.data.messageAdded));
+      client.writeData({
+        data: {
+          messages: messages.concat(subscriptionData.data.messageAdded),
+        },
+      });
     },
   });
   // const { data } = useSubscription(messageAddedSubscription);
